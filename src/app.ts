@@ -1,9 +1,10 @@
 import express = require("express");
-import * as statusController from './controllers/status';
+import router from "./routes/router";
 
 const app = express();
 
 app.use(express.json());
-app.get('/status', statusController.status);
+app.use("/api/v1", router);
+
 
 export default app;
