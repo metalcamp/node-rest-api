@@ -1,13 +1,11 @@
 import {BaseEntity, Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 
 @Entity()
-export class Channel extends BaseEntity{
+export class Subscriber extends BaseEntity {
 
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({
-        length: 100
-    })
-    title: string;
+    @Column()
+    url: string;
 }
