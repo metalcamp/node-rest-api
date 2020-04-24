@@ -6,6 +6,9 @@ const port: number = Config.port;
 const env: string = Config.env;
 
 const connection = createConnection()
+    .then(async conn => {
+        await conn.runMigrations();
+    })
     .catch((error) => {
         console.log(error);
     });
