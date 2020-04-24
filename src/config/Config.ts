@@ -1,3 +1,6 @@
+import * as dotenv from "dotenv";
+dotenv.config();
+
 class Config {
     public readonly port: number;
     public readonly env: string;
@@ -10,7 +13,7 @@ class Config {
 
     constructor() {
         this.port = parseInt(process.env.PORT, 10) || 3000;
-        this.env = process.env.ENV ?? 'prod';
+        this.env = process.env.APP_ENV ?? 'prod';
         this.dbHost = process.env.DB_CONNECTION ?? 'postgres';
         this.dbHost = process.env.DB_HOST ?? 'localhost';
         this.dbPort = parseInt(process.env.DB_PORT, 10) || 5432;

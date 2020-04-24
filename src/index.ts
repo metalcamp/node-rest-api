@@ -13,7 +13,6 @@ const connection = createConnection()
         console.log(error);
     });
 
-
 const server = app.listen(port, () => {
     console.log("app is running on http://localhost:%d in %s mode",
         port,
