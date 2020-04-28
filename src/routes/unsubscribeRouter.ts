@@ -5,7 +5,7 @@ import {check} from "express-validator";
 
 const router: Router = express.Router();
 
-router.post('/unsubscribe/:channel',
+router.post('/:channel',
     [
         check('subscriberURL').isURL(),
     ],

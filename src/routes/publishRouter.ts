@@ -5,6 +5,6 @@ import * as publishController from "../controllers/publishController";
 const router: Router = express.Router();
 
 // TODO validation
-router.post('/publish/:channel', publishController.publish)
+router.post('/:channel', publishController.publish)
 
 export default router;
