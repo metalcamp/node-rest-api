@@ -1,7 +1,8 @@
 import {Request, Response} from "express";
 import {validationResult} from "express-validator";
-import {Channel} from "../entities/channel";
-import {Subscriber} from "../entities/subscriber";
+import {Channel} from "../entities/Channel";
+import {Subscriber} from "../entities/Subscriber";
+import {ChannelSubscriber} from "../entities/ChannelSubscriber";
 
 export let subscribe = async (req: Request, res: Response) => {
     const errors = validationResult(req);
@@ -31,7 +32,15 @@ export let subscribe = async (req: Request, res: Response) => {
         await subscriber.save();
     }
 
-    console.log(subscriber);
+    const params = {channelId: channel.id, subscriberId: subscriber.id};
+    let channelSubscriber = await ChannelSubscriber.findOne(params)
+
+    if(channelSubscriber === undefined )
+    {
+        channelSubscriber = await ChannelSubscriber.create(params).save();
+    }
+
+    console.log(channelSubscriber);
 
     res.status(201).send()
 };
