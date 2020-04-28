@@ -15,7 +15,6 @@ export let subscribe = async (req: Request, res: Response) => {
     const {subscriberURL} = req.body;
 
     let channel = await Channel.findOne({title: channelName});
-    console.log(channel);
 
     if (channel === undefined) {
         channel = new Channel();
@@ -24,7 +23,6 @@ export let subscribe = async (req: Request, res: Response) => {
     }
 
     let subscriber = await Subscriber.findOne({url: subscriberURL})
-    console.log(subscriber);
 
     if (subscriber === undefined) {
         subscriber = new Subscriber();
@@ -33,14 +31,11 @@ export let subscribe = async (req: Request, res: Response) => {
     }
 
     const params = {channelId: channel.id, subscriberId: subscriber.id};
-    let channelSubscriber = await ChannelSubscriber.findOne(params)
+    const channelSubscriber = await ChannelSubscriber.findOne(params)
 
-    if(channelSubscriber === undefined )
-    {
-        channelSubscriber = await ChannelSubscriber.create(params).save();
+    if (channelSubscriber === undefined) {
+        await ChannelSubscriber.create(params).save();
     }
-
-    console.log(channelSubscriber);
 
     res.status(201).send()
 };
