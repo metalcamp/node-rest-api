@@ -1,13 +1,20 @@
-import express, {Router} from "express";
-import * as subscribeController from "../controllers/subscribeController";
-import {check} from "express-validator";
+import express, {Request, Response, Router} from "express";
+import ChannelService from "../services/ChannelService";
+import {SubscribeToChannelRequest} from "../interfaces/Channel";
+import {subscribeToChannelSchema} from "../middlewares/schemas/ChannelSchema"
+import AsyncMiddleware from "../middlewares/AsyncMiddleware";
+import {validateSchema} from "../middlewares/ValidateSchema";
+import {ObjectSchema} from '@hapi/joi';
 
 const router: Router = express.Router();
 
-router.post('/:channel',
-    [
-        check('subscriberURL').isURL(),
-    ],
-    subscribeController.subscribe)
+router.post('/:channel', AsyncMiddleware(async (req: Request, res: Response) => {
+    const subscribeRequest = req.body as SubscribeToChannelRequest;
+    const {channel} = req.params;
+
+    validateSchema<SubscribeToChannelRequest, ObjectSchema>(subscribeRequest, subscribeToChannelSchema);
+
+    res.status(201).send(await ChannelService.subscribe(channel, subscribeRequest));
+}));
 
 export default router;

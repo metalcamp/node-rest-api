@@ -1,8 +1,18 @@
 import {Subscriber} from "../entities/Subscriber";
 
-export class SubscriberRepository {
+class SubscriberRepository {
     async findByURL(url: string) {
         const sub = await Subscriber.findOne({url});
+        return sub;
+    }
+
+    async findByURLOrCreate(url: string) {
+        let sub = await this.findByURL(url);
+
+        if (sub === undefined) {
+            sub = await this.store(url);
+        }
+
         return sub;
     }
 
@@ -15,3 +25,5 @@ export class SubscriberRepository {
         await this.findByURL(title).then(c => c.remove());
     }
 }
+
+export default new SubscriberRepository();

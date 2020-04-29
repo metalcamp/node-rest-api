@@ -1,6 +1,6 @@
 import {Channel} from "../entities/Channel";
 
-export class ChannelRepository {
+class ChannelRepository {
     async findByTitle(title: string) {
         const channel = await Channel.findOne({title});
         return channel;
@@ -24,3 +24,5 @@ export class ChannelRepository {
         await this.findByTitle(title).then(c => c.remove());
     }
 }
+
+export default new ChannelRepository();
