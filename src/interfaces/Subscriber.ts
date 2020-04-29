@@ -1,4 +1,4 @@
 export interface Subscriber {
-    id: int,
+    id: number,
     url: string
 }

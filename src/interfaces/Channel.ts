@@ -1,5 +1,5 @@
 export interface Channel {
-    id: int,
+    id: number,
     title: string,
 }
 
