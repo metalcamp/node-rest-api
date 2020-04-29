@@ -1,5 +1,4 @@
-import * as express from "express";
-import {Router} from "express";
+import express, {Router} from "express";
 import * as unsubscribeController from "../controllers/unsubscribeController";
 import {check} from "express-validator";
 
