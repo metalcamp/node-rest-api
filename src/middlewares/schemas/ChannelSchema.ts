@@ -7,3 +7,5 @@ export const subscribeToChannelSchema = Joi.object({
 export const unsubscribeFromChannelSchema = Joi.object({
     subscriberURL: Joi.string().min(3).max(255).uri().required(),
 });
+
+export const publishToChannelSchema = Joi.array().items(Joi.object());

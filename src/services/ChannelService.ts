@@ -29,10 +29,20 @@ class ChannelService {
         }
     }
 
-    // TODO
-    // async publish(){
-    //
-    // }
+    async publish(channelTitle: string, data: any) {
+        // TODO support glob pattern matching
+        let channel = await ChannelRepository.findByTitle(channelTitle);
+
+        if (channel === undefined) {
+            channel = await ChannelRepository.store(channelTitle);
+        }
+
+        // TODO
+        console.log("publishing data...")
+        console.log(data);
+
+        // await redis.publish(channelName, req.body);
+    }
 }
 
 export default new ChannelService()
