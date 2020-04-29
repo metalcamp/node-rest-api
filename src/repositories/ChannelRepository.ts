@@ -1,15 +1,26 @@
 import {Channel} from "../entities/Channel";
 
 export class ChannelRepository {
-    findByTitle(title: string) {
-        return Channel.findOne({title});
+    async findByTitle(title: string) {
+        const channel = await Channel.findOne({title});
+        return channel;
     }
 
-    store(title: string) {
+    async findByTitleOrCreate(title: string) {
+        let channel = await this.findByTitle(title);
+
+        if (channel === undefined) {
+            channel = await this.store(title);
+        }
+
+        return channel;
+    }
+
+    async store(title: string) {
         return Channel.create({title}).save();
     }
 
-    delete(title: string) {
-        return this.findByTitle(title).then(c => c.remove());
+    async delete(title: string) {
+        await this.findByTitle(title).then(c => c.remove());
     }
 }

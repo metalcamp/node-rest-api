@@ -1,9 +1,8 @@
 import express, {Router} from "express";
-import * as publishController from "../controllers/publishController";
+import PublishController from "../controllers/publishController";
 
 const router: Router = express.Router();
-
 // TODO validation
-router.post('/:channel', publishController.publish)
+router.post('/:channel', PublishController.publish)
 
 export default router;

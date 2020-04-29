@@ -1,15 +1,17 @@
 import {Subscriber} from "../entities/Subscriber";
 
 export class SubscriberRepository {
-    findByURL(url: string) {
-        return Subscriber.findOne({url});
+    async findByURL(url: string) {
+        const sub = await Subscriber.findOne({url});
+        return sub;
     }
 
-    store(url: string) {
-        return Subscriber.create({url}).save();
+    async store(url: string) {
+        const sub = await Subscriber.create({url}).save();
+        return sub;
     }
 
-    delete(title: string) {
-        return this.findByURL(title).then(c => c.remove());
+    async delete(title: string) {
+        await this.findByURL(title).then(c => c.remove());
     }
 }
