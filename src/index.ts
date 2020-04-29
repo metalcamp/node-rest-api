@@ -1,6 +1,8 @@
 import {Server} from "./server";
+import {RSSWorker} from "./workers/RSSWorker";
 
-if ((process.env.ROLE === "server") || (process.env.ROLE === undefined)) {
+
+if ((process.env.ROLE === "server")) {
     console.log("running as server");
     const server = new Server();
     server.start();
@@ -11,7 +13,8 @@ if((process.env.ROLE === "publish-worker")){
     // TODO
 }
 
-if((process.env.ROLE === "rss-worker")){
+if((process.env.ROLE === "rss-worker") || (process.env.ROLE === undefined)){
     console.log("running as rss worker")
-    // TODO
+    const worker = new RSSWorker();
+    const res = worker.parseFromFile();
 }
