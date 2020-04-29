@@ -7,6 +7,6 @@ export interface SubscribeToChannelRequest {
     subscriberURL: string,
 }
 
-export interface UnsubscribeToChannelRequest {
+export interface UnsubscribeFromChannelRequest {
     subscriberURL: string,
 }
