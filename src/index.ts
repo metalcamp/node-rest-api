@@ -1,3 +1,5 @@
+import * as dotenv from "dotenv";
+dotenv.config();
 import app from './app';
 import Config from './config/Config';
 import {createConnection} from "typeorm";
