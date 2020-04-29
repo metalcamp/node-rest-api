@@ -21,7 +21,7 @@ class Config {
         this.dbPassword = process.env.DB_PASS ?? '';
         this.dbName = process.env.DB_NAME ?? '';
         this.redisHost = process.env.REDIS_HOST ?? 'localhost';
-        this.redisPort = parseInt(process.env.REDIS_PORT, 10) || 6379 ;
+        this.redisPort = parseInt(process.env.REDIS_PORT, 10) || 6379;
         this.redisPassword = process.env.REDIS_PASS ?? '';
     }
 }
