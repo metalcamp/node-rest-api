@@ -95,11 +95,6 @@
   dependencies:
     "@types/node" "*"
 
-"@types/es6-shim@^0.31.39":
-  version "0.31.39"
-  resolved "https://registry.yarnpkg.com/@types/es6-shim/-/es6-shim-0.31.39.tgz#61de60fac180f967177bcde598a62072a39ea04b"
-  integrity sha512-z2JtmHE1wg75JTdT1qWGvW4eDOk6DUW1Exdzrs+8QTPFttkdTr4pKVzLLCCAOUC8i/KiG+QtkSEteQ5hDxwbpg==
-
 "@types/express-serve-static-core@*":
   version "4.17.5"
   resolved "https://registry.yarnpkg.com/@types/express-serve-static-core/-/express-serve-static-core-4.17.5.tgz#a00ac7dadd746ae82477443e4d480a6a93ea083c"
@@ -157,6 +152,13 @@
   dependencies:
     "@types/express-serve-static-core" "*"
     "@types/mime" "*"
+
+"@types/xml2js@^0.4.5":
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/@types/xml2js/-/xml2js-0.4.5.tgz#d21759b056f282d9c7066f15bbf5c19b908f22fa"
+  integrity sha512-yohU3zMn0fkhlape1nxXG2bLEGZRc1FeqF80RoHaYXJN7uibaauXfhzhOJr1Xh36sn+/tx21QAOf07b/xYVk1w==
+  dependencies:
+    "@types/node" "*"
 
 abbrev@1:
   version "1.1.1"
