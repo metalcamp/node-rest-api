@@ -8,9 +8,18 @@ const input1 = [1, 1, 1, 2, 3, 5, 6, 6]
 const output1 = [...new Set(input1)];
 // console.log(output1)
 
-// solution @4
-const input2 = [{value: 1, id: "test1"}, {value: 2, id: "test2"}, {value: 3, id: "test3"}]
-const arrayToObject = (arr, keyField, valueField) => Object.assign({}, ...arr.map(item => ({[item[keyField]]: item[valueField]})));
+// solution 1 @4
+const input4 = [{value: 1, id: "test1"}, {value: 2, id: "test2"}, {value: 3, id: "test3"}]
+const reducer = (accumulator, currentValue) => {
+    accumulator[currentValue.id] = currentValue.value;
+    return accumulator;
+};
 
-const output2 = arrayToObject(input2, "id", "value");
-console.log(output2);
+const output41 = input4.reduce(reducer, {});
+// console.log(output41);
+
+// solution 2 @4
+const arrayToObject = (arr, keyField, valueField) => Object.assign({}, ...arr.map(item => ({[item[keyField]]: item[valueField]})));
+const output42 = arrayToObject(input4, "id", "value");
+
+// console.log(output42);
