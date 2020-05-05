@@ -1,8 +1,9 @@
 version: '3.1'
 
 services:
-    db:
+    postgres:
         image: postgres:10.12
+        container_name: postgres
         environment:
             POSTGRES_PASSWORD: "secret"
             POSTGRES_DB: "api"
@@ -15,6 +16,7 @@ services:
         restart: unless-stopped
     redis:
         image: redis:5.0.9
+        container_name: redis
         ports:
             - "6379:6379"
         networks:
@@ -24,33 +26,35 @@ services:
         container_name: app
         restart: always
         build: .
+        env_file:
+          - .env
         environment:
             - START_SERVER=true
         ports:
             - "3000:3000"
-        links:
-            - db
-            - redis
+        networks:
+            - postgres
     worker-rss:
         container_name: worker-rss
         restart: always
         build: .
         environment:
             - START_RSS_WORKER=true
-        links:
-            - app
-            - db
-            - redis
+        env_file:
+            - .env
+        networks:
+            - postgres
     worker-publish:
         container_name: worker-publish
         restart: always
         build: .
         environment:
             - START_PUBLISH_WORKER=true
-        links:
-            - app
-            - db
-            - redis
+        env_file:
+            - .env
+        networks:
+            - postgres
+
 networks:
     postgres:
         driver: bridge
