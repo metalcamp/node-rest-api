@@ -7,7 +7,16 @@ export default createConnection({
     port: Config.dbPort,
     database: Config.dbName,
     username: Config.dbUser,
-    password: Config.dbPassword
+    password: Config.dbPassword,
+    entities: [
+        'entities/**/*.ts'
+    ],
+    migrations: [
+        'migrations/**/*.ts'
+    ],
+    subscribers: [
+        'subscribers/**/*.ts'
+    ],
 })
     .then(async conn => {
         await conn.runMigrations();
