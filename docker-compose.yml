@@ -10,7 +10,7 @@ services:
         ports:
             - "5432:5432"
         networks:
-            - postgres
+            - internal
         volumes:
             - pgdata:/var/lib/postgresql/data
         restart: unless-stopped
@@ -20,7 +20,7 @@ services:
         ports:
             - "6379:6379"
         networks:
-            - postgres
+            - internal
         restart: unless-stopped
     app:
         container_name: app
@@ -32,8 +32,11 @@ services:
             - START_SERVER=true
         ports:
             - "3000:3000"
+        depends_on:
+          - postgres
+          - redis
         networks:
-            - postgres
+            - internal
     worker-rss:
         container_name: worker-rss
         restart: always
@@ -42,8 +45,11 @@ services:
             - START_RSS_WORKER=true
         env_file:
             - .env
-        networks:
+        depends_on:
             - postgres
+            - redis
+        networks:
+            - internal
     worker-publish:
         container_name: worker-publish
         restart: always
@@ -52,11 +58,14 @@ services:
             - START_PUBLISH_WORKER=true
         env_file:
             - .env
-        networks:
+        depends_on:
             - postgres
+            - redis
+        networks:
+            - internal
 
 networks:
-    postgres:
+    internal:
         driver: bridge
 volumes:
     pgdata:
