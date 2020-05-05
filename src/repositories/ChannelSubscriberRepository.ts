@@ -1,13 +1,17 @@
 import {ChannelSubscriber} from "../entities/ChannelSubscriber";
+import {getConnection} from "typeorm";
 
 class ChannelSubscriberRepository {
     async findByIds(channelId: number, subscriberId: number) {
-        const cs = await ChannelSubscriber.findOne({channelId, subscriberId});
+        const cs = await getConnection().manager.findOne(ChannelSubscriber, {channelId, subscriberId});
         return cs;
     }
 
     async store(channel: { id: number; }, subscriber: { id: number; }) {
-        const cs = ChannelSubscriber.create({channelId: channel.id, subscriberId: subscriber.id}).save();
+        const cs = getConnection().manager.create(ChannelSubscriber, {
+            channelId: channel.id,
+            subscriberId: subscriber.id
+        }).save();
         return cs;
     }
 

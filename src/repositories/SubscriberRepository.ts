@@ -1,8 +1,9 @@
 import {Subscriber} from "../entities/Subscriber";
+import {getConnection} from "typeorm";
 
 class SubscriberRepository {
     async findByURL(url: string) {
-        const sub = await Subscriber.findOne({url});
+        const sub = await getConnection().manager.findOne(Subscriber, {url});
         return sub;
     }
 
@@ -17,7 +18,7 @@ class SubscriberRepository {
     }
 
     async store(url: string) {
-        const sub = await Subscriber.create({url}).save();
+        const sub = await getConnection().manager.create(Subscriber, {url}).save();
         return sub;
     }
 
