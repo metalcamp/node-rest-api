@@ -13,7 +13,6 @@ services:
         volumes:
             - pgdata:/var/lib/postgresql/data
         restart: unless-stopped
-
     redis:
         image: redis:5.0.9
         ports:
@@ -21,7 +20,37 @@ services:
         networks:
             - postgres
         restart: unless-stopped
-
+    app:
+        container_name: app
+        restart: always
+        build: .
+        environment:
+            - START_SERVER=true
+        ports:
+            - "3000:3000"
+        links:
+            - db
+            - redis
+    worker-rss:
+        container_name: worker-rss
+        restart: always
+        build: .
+        environment:
+            - START_RSS_WORKER=true
+        links:
+            - app
+            - db
+            - redis
+    worker-publish:
+        container_name: worker-publish
+        restart: always
+        build: .
+        environment:
+            - START_PUBLISH_WORKER=true
+        links:
+            - app
+            - db
+            - redis
 networks:
     postgres:
         driver: bridge
