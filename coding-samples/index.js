@@ -5,8 +5,7 @@
 
 // solution @1
 const input1 = [1, 1, 1, 2, 3, 5, 6, 6]
-const output1 = [...new Set(input1)];
-// console.log(output1)
+// console.log([...new Set(input1)]);
 
 // solution 1 @4
 const input4 = [{value: 1, id: "test1"}, {value: 2, id: "test2"}, {value: 3, id: "test3"}]
@@ -14,12 +13,8 @@ const reducer = (accumulator, currentValue) => {
     accumulator[currentValue.id] = currentValue.value;
     return accumulator;
 };
-
-const output41 = input4.reduce(reducer, {});
-// console.log(output41);
+// console.log(input4.reduce(reducer, {}));
 
 // solution 2 @4
 const arrayToObject = (arr, keyField, valueField) => Object.assign({}, ...arr.map(item => ({[item[keyField]]: item[valueField]})));
-const output42 = arrayToObject(input4, "id", "value");
-
-// console.log(output42);
+// console.log(arrayToObject(input4, "id", "value"));
