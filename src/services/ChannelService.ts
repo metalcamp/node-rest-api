@@ -10,7 +10,7 @@ class ChannelService {
         try {
             const channel = await ChannelRepository.findByTitleOrCreate(channelTitle);
             const subscriber = await SubscriberRepository.findByURLOrCreate(data.subscriberURL);
-            const channelSubscriber = ChannelSubscriberRepository.findByIds(channel.id, subscriber.id);
+            const channelSubscriber = await ChannelSubscriberRepository.findByIds(channel.id, subscriber.id);
         } catch (e) {
             throw new HandledError(ErrorType.Database, 'Could not store data');
         }
