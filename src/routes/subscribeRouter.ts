@@ -17,4 +17,8 @@ router.post('/:channel', AsyncMiddleware(async (req: Request, res: Response) => 
     res.status(201).send(await ChannelService.subscribe(channel, subscribeRequest));
 }));
 
+router.post('/client', AsyncMiddleware(async (req: Request, res: Response) => {
+    console.log("received new message:\n" + req.body);
+}));
+
 export default router;
