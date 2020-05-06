@@ -4,7 +4,6 @@ import SubscriberRepository from "../repositories/SubscriberRepository";
 import ChannelSubscriberRepository from "../repositories/ChannelSubscriberRepository";
 import {HandledError} from "../errors/HandledError";
 import {ErrorType} from "../interfaces/HandledError";
-import {getConnection} from "typeorm";
 
 class ChannelService {
     async subscribe(channelTitle: string, data: SubscribeToChannelRequest) {
@@ -40,8 +39,8 @@ class ChannelService {
                 channel = await ChannelRepository.store(channelPattern);
             }
 
-            // const redisService = new RedisService();
-            // redisService.publish([channel.title], message);
+            const redisService = new RedisService();
+            redisService.publish([channel.title], message);
         } catch (e) {
             console.log(e.message);
             throw new HandledError(ErrorType.Database, 'Something went wrong in db');

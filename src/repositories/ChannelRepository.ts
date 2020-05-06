@@ -19,8 +19,6 @@ class ChannelRepository {
     }
 
     async store(title: string) {
-        // const ch = new Channel();
-        // ch.title = title;
         const channel = await getConnection().manager.create(Channel, {title}).save();
         return channel;
     }
