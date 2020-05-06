@@ -42,7 +42,7 @@ class ChannelService {
             }
 
             const redisService = new RedisService();
-            await redisService.publish(filteredChannels, message);
+            await redisService.publish(filteredChannels, JSON.stringify(message));
         } catch (e) {
             throw new HandledError(ErrorType.Database, 'Something went wrong in db');
         }

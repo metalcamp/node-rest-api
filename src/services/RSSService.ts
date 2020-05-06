@@ -36,7 +36,7 @@ export class RSSService {
     async publish(channel: string, message: object) {
         try {
             const url = this.apiURL + encodeURI(channel);
-            await axios.post(url, JSON.stringify(message));
+            await axios.post(url, message);
         } catch (e) {
             console.error(e);
         }

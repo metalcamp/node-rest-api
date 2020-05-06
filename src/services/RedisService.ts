@@ -10,18 +10,18 @@ export class RedisService {
             })
 
             redis.on('pmessage', (pattern, channel, message) => {
-                console.log("received message %s from channel %s with pattern %s", message, channel, pattern);
+                console.log("received message %s from channel %s with pattern %s", JSON.stringify(message), channel, pattern);
             })
         } catch (e) {
             console.log(e);
         }
     }
 
-    async publish(channels: string[], message: object) {
+    async publish(channels: string[], message: any) {
         try {
             for (const channel of channels) {
                 console.log(`redis publish to channel ${channel}`);
-                await redis.publish(channel, JSON.stringify(message));
+                await redis.publish(channel, message);
             }
         } catch (e) {
             console.log(e);
