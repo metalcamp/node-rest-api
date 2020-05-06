@@ -4,6 +4,8 @@ import SubscriberRepository from "../repositories/SubscriberRepository";
 import ChannelSubscriberRepository from "../repositories/ChannelSubscriberRepository";
 import {HandledError} from "../errors/HandledError";
 import {ErrorType} from "../interfaces/HandledError";
+import {RedisService} from "./RedisService";
+import multimatch from "multimatch";
 
 class ChannelService {
     async subscribe(channelTitle: string, data: SubscribeToChannelRequest) {
@@ -31,16 +33,16 @@ class ChannelService {
 
     async publish(channelPattern: string, message: any) {
         try {
-            // TODO support glob pattern matching
-            console.log(channelPattern);
-            let channel = await ChannelRepository.findByTitle(channelPattern);
+            const channels = await ChannelRepository.findAll();
+            const filteredChannels = multimatch(channels.map((c) => c.title), [channelPattern]);
 
-            if (channel === undefined) {
-                channel = await ChannelRepository.store(channelPattern);
+            if (filteredChannels.length === 0) {
+                const channel = await ChannelRepository.store(channelPattern);
+                filteredChannels.push(channel.title)
             }
 
             const redisService = new RedisService();
-            redisService.publish([channel.title], message);
+            redisService.publish(filteredChannels, message);
         } catch (e) {
             console.log(e.message);
             throw new HandledError(ErrorType.Database, 'Something went wrong in db');

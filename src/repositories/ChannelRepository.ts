@@ -1,8 +1,13 @@
 import {Channel} from "../entities/Channel";
-import {getConnection, EntityRepository} from "typeorm";
+import {getConnection, EntityRepository, Repository} from "typeorm";
 
 @EntityRepository(Channel)
-class ChannelRepository {
+class ChannelRepository extends Repository<Channel> {
+
+    async findAll(){
+        return Channel.find();
+    }
+
     async findByTitle(title: string) {
         const channel = await getConnection().manager.findOne(Channel, {title});
         return channel;
@@ -23,9 +28,9 @@ class ChannelRepository {
         return channel;
     }
 
-    async delete(title: string) {
-        await this.findByTitle(title).then(c => c.remove());
-    }
+    // async remove(title: string) {
+    //     await this.findByTitle(title).then(c => c.remove());
+    // }
 }
 
 export default new ChannelRepository();

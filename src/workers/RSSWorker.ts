@@ -23,6 +23,7 @@ export class RSSWorker {
 
     async parseFromFile(pathToFile?: string) {
         try {
+            console.log("parsing file");
             const filePath = pathToFile ?? "observation_si_latest.rss";
             const data = await fs.readFileSync(filePath, "utf8");
             const feed = await this.parser.parseString(data);
@@ -44,7 +45,7 @@ export class RSSWorker {
     async start() {
         setInterval(async () => {
             const rssItems = await this.parseFromFile();
-
+            console.log("start publishing to api");
             rssItems.forEach((item) => {
                 this.publish(item.guid, item);
             })

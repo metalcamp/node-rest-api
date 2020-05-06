@@ -18,8 +18,14 @@ export class RedisService {
     }
 
     publish(channels: string[], message: string) {
-        channels.forEach(async (channel) => {
-            await redis.publish(channel, message);
-        });
+        try {
+            channels.forEach(async (channel) => {
+                console.log(`redis publish to channel ${channel}`);
+                await redis.publish(channel, message);
+            });
+        }catch (e) {
+             console.log(e);
+        }
+
     }
 }

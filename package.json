@@ -37,6 +37,7 @@
     "express": "^4.17.1",
     "fs": "^0.0.1-security",
     "ioredis": "^4.16.3",
+    "multimatch": "^4.0.0",
     "pg": "^8.0.2",
     "reflect-metadata": "^0.1.13",
     "rss-parser": "^3.7.6",
