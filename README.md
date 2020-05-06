@@ -5,3 +5,9 @@
 * implement publish worker (worker publishes messages published to channel to its subscribers) 
 * implement tests
 * refactor error mechanism
+
+Commands: 
+* yarn start - start server
+* yarn start-rss - starts rss parser / publisher / worker
+* yarn start-publish - starts publish worker / redis listener
+ 
