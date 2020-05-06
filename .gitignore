@@ -4,4 +4,4 @@ dist
 node_modules
 docker/*/data
 yarn-error.log
-README.md
+INSTRUCTIONS.md
