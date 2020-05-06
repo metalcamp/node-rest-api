@@ -4,6 +4,7 @@ import SubscriberRepository from "../repositories/SubscriberRepository";
 import ChannelSubscriberRepository from "../repositories/ChannelSubscriberRepository";
 import {HandledError} from "../errors/HandledError";
 import {ErrorType} from "../interfaces/HandledError";
+import {RedisService} from "./RedisService";
 
 class ChannelService {
     async subscribe(channelTitle: string, data: SubscribeToChannelRequest) {
@@ -29,19 +30,20 @@ class ChannelService {
         }
     }
 
-    async publish(channelTitle: string, data: any) {
-        // TODO support glob pattern matching
-        let channel = await ChannelRepository.findByTitle(channelTitle);
+    async publish(channelPattern: string, message: any) {
+        try {
+            // TODO support glob pattern matching
+            let channel = await ChannelRepository.findByTitle(channelPattern);
 
-        if (channel === undefined) {
-            channel = await ChannelRepository.store(channelTitle);
+            if (channel === undefined) {
+                channel = await ChannelRepository.store(channelPattern);
+            }
+
+            const redisService = new RedisService();
+            redisService.publish([channel.title], message);
+        } catch (e) {
+            throw new HandledError(ErrorType.Database, 'Something went wrong');
         }
-
-        // TODO
-        console.log("publishing data...")
-        console.log(data);
-
-        // await redis.publish(channelName, req.body);
     }
 }
 
