@@ -6,13 +6,14 @@ export class RedisService {
             channel = "*";
         }
 
-        redis.psubscribe(channel, (err, message) => {
-            if (err) {
+        return new Promise((resolve, reject) => {
+            redis.psubscribe(channel, (err, message) => {
+                if (err) {
+                    return reject(err);
+                }
 
-                console.log(`error: ${err}`);
-            }
-
-            console.log(`received message: ${message}`);
+                console.log(`received message: ${message}`);
+            });
         });
     }
 

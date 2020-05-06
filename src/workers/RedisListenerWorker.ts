@@ -1,8 +1,8 @@
 import {RedisService} from "../services/RedisService";
 
 export class RedisListenerWorker {
-    start() {
+    async start() {
         const redis = new RedisService();
-        redis.listen();
+        await redis.listen();
     }
 }
