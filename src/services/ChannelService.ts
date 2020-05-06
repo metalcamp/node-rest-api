@@ -4,7 +4,6 @@ import SubscriberRepository from "../repositories/SubscriberRepository";
 import ChannelSubscriberRepository from "../repositories/ChannelSubscriberRepository";
 import {HandledError} from "../errors/HandledError";
 import {ErrorType} from "../interfaces/HandledError";
-import {RedisService} from "./RedisService";
 import {getConnection} from "typeorm";
 
 class ChannelService {
@@ -34,12 +33,10 @@ class ChannelService {
     async publish(channelPattern: string, message: any) {
         try {
             // TODO support glob pattern matching
-            // const repo = getConnection().getCustomRepository(ChannelRepository);
-            // let channel = repo.findByTitle(channelPattern);
+            console.log(channelPattern);
             let channel = await ChannelRepository.findByTitle(channelPattern);
 
             if (channel === undefined) {
-                console.log("undefined");
                 channel = await ChannelRepository.store(channelPattern);
             }
 
