@@ -21,7 +21,7 @@ if (process.env.START_REDIS_LISTENER_WORKER === "true") {
     worker.start();
 }
 
-if (process.env.START_SERVER === "true" || process.env.START_SERVER === undefined) {
+if (process.env.START_SERVER === "true") {
     console.log("running as server");
     const server = new Server();
     server.start();

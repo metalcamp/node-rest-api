@@ -8,10 +8,11 @@ export class RedisService {
 
         redis.psubscribe(channel, (err, message) => {
             if (err) {
-                console.log(err);
+
+                console.log(`error: ${err}`);
             }
 
-            console.log(`received message: ${message}`, message);
+            console.log(`received message: ${message}`);
         });
     }
 
