@@ -1,3 +1,5 @@
+import * as dotenv from "dotenv";
+dotenv.config();
 import {Server} from "./server";
 import {RSSWorker} from "./workers/RSSWorker";
 import {RedisListenerWorker} from "./workers/RedisListenerWorker";
