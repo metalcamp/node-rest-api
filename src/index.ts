@@ -14,7 +14,7 @@ if (process.env.START_RSS_WORKER === "true") {
     // worker.start();
 }
 
-if (process.env.START_SERVER === "true") {
+if (process.env.START_SERVER === "true" || process.env.START_SERVER === undefined) {
     console.log("running as server");
     const server = new Server();
     server.start();

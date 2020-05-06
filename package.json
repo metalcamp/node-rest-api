@@ -7,7 +7,9 @@
     "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
     "build": "npx tsc",
     "build-start": "\"yarn run build\" && \"yarn run start\"",
-    "start": "node dist/index.js",
+    "start": "env START_SERVER=true node dist/index.js",
+    "start-rss": "env START_RSS_WORKER=true node dist/index.js",
+    "start-publish": "env START_PUBLISH_WORKER=true node dist/index.js",
     "watch-ts": "tsc -w",
     "watch-node": "nodemon dist/index.js",
     "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript, Node\" -c \"yello.bold, cyan.bold\" \"yarn run watch-ts\" \"yarn run watch-node\""
