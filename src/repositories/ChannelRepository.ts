@@ -1,6 +1,7 @@
 import {Channel} from "../entities/Channel";
-import {getConnection} from "typeorm";
+import {getConnection, EntityRepository} from "typeorm";
 
+@EntityRepository(Channel)
 class ChannelRepository {
     async findByTitle(title: string) {
         const channel = await getConnection().manager.findOne(Channel, {title});
@@ -18,6 +19,8 @@ class ChannelRepository {
     }
 
     async store(title: string) {
+        // const ch = new Channel();
+        // ch.title = title;
         const channel = await getConnection().manager.create(Channel, {title}).save();
         return channel;
     }

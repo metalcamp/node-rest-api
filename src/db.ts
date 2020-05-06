@@ -9,18 +9,19 @@ export default createConnection({
     username: Config.dbUser,
     password: Config.dbPassword,
     entities: [
-        'entities/**/*.ts'
+        'entities/**/*.{ts,js}'
     ],
     migrations: [
-        'migrations/**/*.ts'
+        'migrations/**/*.{ts,js}'
     ],
     subscribers: [
-        'subscribers/**/*.ts'
+        'subscribers/**/*.{ts,js}'
     ],
 })
     .then(async conn => {
         await conn.runMigrations();
     })
     .catch((error) => {
+        console.log("there was an error establishing db connection");
         console.log(error);
     });

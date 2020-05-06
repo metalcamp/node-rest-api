@@ -42,11 +42,15 @@ export class RSSWorker {
     }
 
     async start() {
-        const rssItems = await this.parseFromFile();
+        setInterval(async () => {
+            const rssItems = await this.parseFromFile();
 
-        rssItems.forEach((item) => {
-            this.publish(item.guid, item);
-        })
+            rssItems.forEach((item) => {
+                this.publish(item.guid, item);
+            })
+        }, 30 * 1000);
+
+
     }
 }
 

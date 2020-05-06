@@ -5,6 +5,7 @@ import ChannelSubscriberRepository from "../repositories/ChannelSubscriberReposi
 import {HandledError} from "../errors/HandledError";
 import {ErrorType} from "../interfaces/HandledError";
 import {RedisService} from "./RedisService";
+import {getConnection} from "typeorm";
 
 class ChannelService {
     async subscribe(channelTitle: string, data: SubscribeToChannelRequest) {
@@ -33,16 +34,20 @@ class ChannelService {
     async publish(channelPattern: string, message: any) {
         try {
             // TODO support glob pattern matching
+            // const repo = getConnection().getCustomRepository(ChannelRepository);
+            // let channel = repo.findByTitle(channelPattern);
             let channel = await ChannelRepository.findByTitle(channelPattern);
 
             if (channel === undefined) {
+                console.log("undefined");
                 channel = await ChannelRepository.store(channelPattern);
             }
 
-            const redisService = new RedisService();
-            redisService.publish([channel.title], message);
+            // const redisService = new RedisService();
+            // redisService.publish([channel.title], message);
         } catch (e) {
-            throw new HandledError(ErrorType.Database, 'Something went wrong');
+            console.log(e.message);
+            throw new HandledError(ErrorType.Database, 'Something went wrong in db');
         }
     }
 }
