@@ -21,20 +21,15 @@ const promise3 = new Promise((resolve, reject) => {
 });
 
 Promise.all([
-    promise1.catch(error => {
-        return error;
-    }),
-    promise2.catch(error => {
-        return error;
-    }),
-    promise3.catch(error => {
-        return error;
-    }),
-]).then(values => {
-    console.log(values[0]);
-    console.log(values[1]);
-    console.log(values[2]);
-});
+    promise1,
+    promise2,
+    promise3,
+].map(p => p.catch(e => e)))
+    .then(values => {
+        console.log(values[0]);
+        console.log(values[1]);
+        console.log(values[2]);
+    });
 
 // solution 1 @4
 const input4 = [{value: 1, id: "test1"}, {value: 2, id: "test2"}, {value: 3, id: "test3"}]
