@@ -1,5 +1,5 @@
 ### TODO 
-* implement [winston](https://github.com/winstonjs/winston) logger
+* <del>implement [winston](https://github.com/winstonjs/winston) logger</del>
 * <del>implement client subscriber (client prints request body to console)</del>
 * <del>support glob style pattern channel matching</del> 
 * <del>implement publish worker (worker publishes messages published to channel to its subscribers)</del>
