@@ -1,8 +1,9 @@
 import {ChannelSubscriber} from "../entities/ChannelSubscriber";
-import {getConnection} from "typeorm";
+import {EntityRepository, getConnection, Repository} from "typeorm";
 
-class ChannelSubscriberRepository {
-    async findByIds(channelId: number, subscriberId: number) {
+@EntityRepository(ChannelSubscriber)
+class ChannelSubscriberRepository extends  Repository<ChannelSubscriber>{
+    async findWithIds(channelId: number, subscriberId: number) {
         const cs = await getConnection().manager.findOne(ChannelSubscriber, {channelId, subscriberId});
         return cs;
     }
@@ -15,9 +16,9 @@ class ChannelSubscriberRepository {
         return cs;
     }
 
-    async delete(channelId: number, subscriberId: number) {
-        await this.findByIds(channelId, subscriberId).then(cs => cs.remove());
-    }
+    // async delete(channelId: number, subscriberId: number) {
+    //     await this.findByIds(channelId, subscriberId).then(cs => cs.remove());
+    // }
 }
 
 export default new ChannelSubscriberRepository();

@@ -12,7 +12,14 @@ class ChannelService {
         try {
             const channel = await ChannelRepository.findByTitleOrCreate(channelTitle);
             const subscriber = await SubscriberRepository.findByURLOrCreate(data.subscriberURL);
-            const channelSubscriber = await ChannelSubscriberRepository.findByIds(channel.id, subscriber.id);
+            let channelSubscriber = await ChannelSubscriberRepository.findOne({
+                channelId: channel.id,
+                subscriberId: subscriber.id
+            });
+
+            if (channelSubscriber === undefined) {
+                channelSubscriber = await ChannelSubscriberRepository.save({channelId: channel.id, subscriberId: subscriber.id});
+            }
         } catch (e) {
             throw new HandledError(ErrorType.Database, 'Could not store data');
         }
@@ -23,8 +30,11 @@ class ChannelService {
         try {
             const channel = await ChannelRepository.findByTitle(channelTitle);
             const subscriber = await SubscriberRepository.findByURL(subscriberURL)
-            const channelSubscriber = await ChannelSubscriberRepository.findByIds(channel.id, subscriber.id)
 
+            const channelSubscriber = await ChannelSubscriberRepository.findOne({
+                channelId: channel.id,
+                subscriberId: subscriber.id
+            })
             await channelSubscriber.remove();
         } catch (e) {
             throw new HandledError(ErrorType.ResourceNotFound, 'Resource not found');
@@ -47,6 +57,17 @@ class ChannelService {
             throw new HandledError(ErrorType.Database, 'Something went wrong in db');
         }
     }
+
+    // TODO
+    // async findSubscribers(channelPattern: string) {
+    //     try {
+    //         const channels = await ChannelRepository.findAll();
+    //         const filteredChannels = multimatch(channels.map((c) => c.title), [channelPattern]);
+    //
+    //     } catch (e) {
+    //         console.log(e);
+    //     }
+    // }
 }
 
 export default new ChannelService()

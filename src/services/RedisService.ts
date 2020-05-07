@@ -11,6 +11,7 @@ export class RedisService {
 
             redis.on('pmessage', (pattern, channel, message) => {
                 console.log("received message %s from channel %s with pattern %s", JSON.stringify(message), channel, pattern);
+
             })
         } catch (e) {
             console.log(e);
