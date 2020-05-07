@@ -6,6 +6,7 @@ import {HandledError} from "../errors/HandledError";
 import {ErrorType} from "../interfaces/HandledError";
 import {RedisService} from "./RedisService";
 import multimatch from "multimatch";
+import {Channel} from "../entities/Channel";
 
 class ChannelService {
     async subscribe(channelTitle: string, data: SubscribeToChannelRequest) {
@@ -46,12 +47,16 @@ class ChannelService {
 
     async getChannels(channelPattern: string) {
         const channels = await ChannelRepository.findAll();
-        return multimatch(channels.map((c) => c.title), [channelPattern]);
+        const patternFilteredChannels = multimatch(channels.map((c) => c.title), [channelPattern]);
+
+        return channels.filter((channel) => {
+            return patternFilteredChannels.includes(channel.title);
+        });
     }
 
-    async publishToRedis(channels: string[], message: any) {
+    async publishToRedis(channels: Channel[], message: any) {
         const redisService = new RedisService();
-        await redisService.publish(channels, JSON.stringify(message));
+        await redisService.publish(channels.map((c) => c.title), JSON.stringify(message));
     }
 
     async publish(channelPattern: string, message: any) {
@@ -60,7 +65,7 @@ class ChannelService {
 
             if (filteredChannels.length === 0) {
                 const channel = await ChannelRepository.store(channelPattern);
-                filteredChannels.push(channel.title)
+                filteredChannels.push(channel)
             }
 
             await this.publishToRedis(filteredChannels, message);
@@ -70,15 +75,15 @@ class ChannelService {
     }
 
     // TODO
-    // async findSubscribers(channelPattern: string) {
-    //     try {
-    //         const channels = await ChannelRepository.findAll();
-    //         const filteredChannels = multimatch(channels.map((c) => c.title), [channelPattern]);
-    //
-    //     } catch (e) {
-    //         console.log(e);
-    //     }
-    // }
+    async findSubscribers(channelPattern: string) {
+        try {
+            const channels = await this.getChannels(channelPattern);
+            ChannelSubscriberRepository.findByIds();
+        } catch (e) {
+            console.log(e);
+            throw new HandledError(ErrorType.Database, 'Something went wrong in db');
+        }
+    }
 }
 
 export default new ChannelService()
