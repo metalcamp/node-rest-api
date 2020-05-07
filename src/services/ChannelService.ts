@@ -18,7 +18,10 @@ class ChannelService {
             });
 
             if (channelSubscriber === undefined) {
-                channelSubscriber = await ChannelSubscriberRepository.save({channelId: channel.id, subscriberId: subscriber.id});
+                channelSubscriber = await ChannelSubscriberRepository.save({
+                    channelId: channel.id,
+                    subscriberId: subscriber.id
+                });
             }
         } catch (e) {
             throw new HandledError(ErrorType.Database, 'Could not store data');
@@ -41,18 +44,26 @@ class ChannelService {
         }
     }
 
+    async getChannels(channelPattern: string) {
+        const channels = await ChannelRepository.findAll();
+        return multimatch(channels.map((c) => c.title), [channelPattern]);
+    }
+
+    async publishToRedis(channels: string[], message: any) {
+        const redisService = new RedisService();
+        await redisService.publish(channels, JSON.stringify(message));
+    }
+
     async publish(channelPattern: string, message: any) {
         try {
-            const channels = await ChannelRepository.findAll();
-            const filteredChannels = multimatch(channels.map((c) => c.title), [channelPattern]);
+            const filteredChannels = await this.getChannels(channelPattern);
 
             if (filteredChannels.length === 0) {
                 const channel = await ChannelRepository.store(channelPattern);
                 filteredChannels.push(channel.title)
             }
 
-            const redisService = new RedisService();
-            await redisService.publish(filteredChannels, JSON.stringify(message));
+            await this.publishToRedis(filteredChannels, message);
         } catch (e) {
             throw new HandledError(ErrorType.Database, 'Something went wrong in db');
         }
