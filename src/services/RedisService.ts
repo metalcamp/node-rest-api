@@ -1,4 +1,5 @@
 import redis from "../redis";
+import {PublishService} from "./PublishService";
 
 export class RedisService {
     async listen(channelPattern?: string) {
@@ -11,7 +12,8 @@ export class RedisService {
 
             redis.on('pmessage', (pattern, channel, message) => {
                 console.log("received message %s from channel %s with pattern %s", JSON.stringify(message), channel, pattern);
-
+                const publishService = new PublishService();
+                publishService.publish(channel, message);
             })
         } catch (e) {
             console.log(e);

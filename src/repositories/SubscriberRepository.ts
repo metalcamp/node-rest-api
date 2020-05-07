@@ -1,7 +1,7 @@
 import {Subscriber} from "../entities/Subscriber";
-import {getConnection} from "typeorm";
+import {getConnection, Repository} from "typeorm";
 
-class SubscriberRepository {
+class SubscriberRepository extends Repository<Subscriber>{
     async findByURL(url: string) {
         const sub = await getConnection().manager.findOne(Subscriber, {url});
         return sub;
@@ -22,9 +22,10 @@ class SubscriberRepository {
         return sub;
     }
 
-    async delete(title: string) {
-        await this.findByURL(title).then(c => c.remove());
-    }
+    // TODO
+    // async delete(title: string) {
+    //     await this.findByURL(title).then(c => c.remove());
+    // }
 }
 
 export default new SubscriberRepository();

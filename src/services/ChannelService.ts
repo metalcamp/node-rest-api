@@ -8,7 +8,7 @@ import {RedisService} from "./RedisService";
 import multimatch from "multimatch";
 import {Channel} from "../entities/Channel";
 
-class ChannelService {
+export class ChannelService {
     async subscribe(channelTitle: string, data: SubscribeToChannelRequest) {
         try {
             const channel = await ChannelRepository.findByTitleOrCreate(channelTitle);
@@ -74,11 +74,25 @@ class ChannelService {
         }
     }
 
-    // TODO
+    // TODO optimize query
     async findSubscribers(channelPattern: string) {
         try {
+            // get channels
             const channels = await this.getChannels(channelPattern);
-            ChannelSubscriberRepository.findByIds();
+
+            // find channel subscribers
+            const channelFilter: object[] = [];
+
+            channels.forEach((c) => {
+                channelFilter.push({channelId: c.id});
+            });
+
+            const channelSubscribers = await ChannelSubscriberRepository.find({
+                where: channelFilter
+            });
+
+            const subscribers = await SubscriberRepository.findByIds(channelSubscribers.map((cs) => cs.subscriberId));
+            return subscribers;
         } catch (e) {
             console.log(e);
             throw new HandledError(ErrorType.Database, 'Something went wrong in db');
@@ -86,4 +100,4 @@ class ChannelService {
     }
 }
 
-export default new ChannelService()
+export default new ChannelService();
