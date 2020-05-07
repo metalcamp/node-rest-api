@@ -5,3 +5,4 @@ node_modules
 docker/*/data
 yarn-error.log
 INSTRUCTIONS.md
+logs/*.log

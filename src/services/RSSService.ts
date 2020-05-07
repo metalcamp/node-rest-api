@@ -1,6 +1,7 @@
 import Parser from "rss-parser";
 import fs from "fs";
 import axios from "axios";
+import logger from "../logger";
 
 export class RSSService {
     private readonly rssURL: string = "https://meteo.arso.gov.si/uploads/probase/www/observ/surface/text/sl/observation_si_latest.rss";
@@ -17,28 +18,31 @@ export class RSSService {
             const feed = await this.parser.parseURL(rssURL);
             return feed.items;
         } catch (e) {
-            console.error(e);
+            logger.log("error", e)
         }
     }
 
     async parseFromFile(pathToFile?: string) {
         try {
-            console.log("parsing file");
+            logger.log("info", "parsing file");
+
             const filePath = pathToFile ?? "observation_si_latest.rss";
             const data = await fs.readFileSync(filePath, "utf8");
             const feed = await this.parser.parseString(data);
             return feed.items;
         } catch (e) {
-            console.error(e);
+            logger.log("error", e)
         }
     }
 
     async publish(channel: string, message: object) {
         try {
             const url = this.apiURL + encodeURI(channel);
+            logger.log("info", `posting to channel: ${channel}, url: ${url}`);
+
             await axios.post(url, message);
         } catch (e) {
-            console.error(e);
+            logger.log("error", e);
         }
     }
 }
