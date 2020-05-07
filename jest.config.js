@@ -7,4 +7,7 @@ module.exports = {
     verbose: true,
     collectCoverage: true,
     testPathIgnorePatterns: ["/dist/", "/node_modules/"],
+    coveragePathIgnorePatterns: [
+        "/node_modules/"
+    ]
 };

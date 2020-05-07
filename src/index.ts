@@ -1,8 +1,8 @@
 import * as dotenv from "dotenv";
-import {Server} from "./server";
 import {RSSWorker} from "./workers/RSSWorker";
 import {RedisListenerWorker} from "./workers/RedisListenerWorker";
 import logger from "./logger";
+import {Server} from "./server";
 dotenv.config();
 
 if (process.env.START_PUBLISH_WORKER === "true") {
