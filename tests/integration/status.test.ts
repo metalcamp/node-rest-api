@@ -1,16 +1,19 @@
 // tslint:disable-next-line:no-implicit-dependencies
 import request from "supertest";
-import * as app from '../../src/app';
-import * as server from '../../src/server';
+import {App} from '../../src/app';
 
-describe("This is a simple test", () => {
-    test("Check that constant is 1",  () => {
-        // expect(constant).toEqual(1);
-        const res = request(server)
-            .get('/api/v1/status');
+describe("This is a simple status test", () => {
+    test("Check that status route exists and returns 200",  () => {
+        const app = (new App()).getServer();
+        const res = request(app)
+            .get('/api/v1/status')
+            .expect(200)
+    });
 
-        console.log(res);
-        expect(1).toEqual(1);
-        // expect(res.statusCode).toEqual(200);
+    test("Check some random route does not exist and returns 404",  () => {
+        const app = (new App()).getServer();
+        const res = request(app)
+            .get('/api/v1/status/232394')
+            .expect(404)
     });
 });
