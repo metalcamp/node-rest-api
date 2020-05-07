@@ -1,8 +1,8 @@
 .env
 .idea
+/coverage
+/logs/*.log
+/node_modules
 dist
-node_modules
-docker/*/data
-yarn-error.log
 INSTRUCTIONS.md
-logs/*.log
+yarn-error.log
