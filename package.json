@@ -17,7 +17,7 @@
     "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript, Node\" -c \"yello.bold, cyan.bold\" \"yarn run watch-ts\" \"yarn run watch-node\"",
     "test": "jest",
     "unit": "jest --config jest.unit.config.js",
-    "integration": "jest --config jest.integration.config.js"
+    "integration": "jest --config jest.integration.config.js --detectOpenHandles"
   },
   "author": "",
   "license": "MIT",
