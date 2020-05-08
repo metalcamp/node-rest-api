@@ -1,16 +1,29 @@
 import {Channel} from "../entities/Channel";
-import {getConnection, EntityRepository, Repository, createQueryBuilder} from "typeorm";
+import {getConnection, EntityRepository} from "typeorm";
 
-@EntityRepository(Channel)
-class ChannelRepository extends Repository<Channel> {
-
-    async findAll(){
-        return Channel.find();
+class ChannelRepository {
+    private setupQb() {
+        return getConnection()
+            .getRepository(Channel)
+            .createQueryBuilder('channel');
     }
 
-    async findByTitle(title: string) {
-        const channel = await getConnection().manager.findOne(Channel, {title});
-        return channel;
+    async findAll(): Promise<Channel[]> {
+        return getConnection()
+            .getRepository(Channel)
+            .createQueryBuilder('channel')
+            .select(['channel'])
+            .orderBy({channel: 'ASC'})
+            .getMany();
+    }
+
+    async findByTitle(title: string): Promise<Channel> {
+        return getConnection()
+            .getRepository(Channel)
+            .createQueryBuilder('channel')
+            .select(['channel'])
+            .where({title})
+            .getOne();
     }
 
     async findByTitleOrCreate(title: string) {
