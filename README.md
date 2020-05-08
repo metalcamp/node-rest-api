@@ -1,3 +1,20 @@
+## Tests
+
+* Run all tests 
+```bash
+yarn test
+```
+
+* Run unit tests 
+```bash
+yarn unit
+```
+
+* Run integration tests 
+```bash
+yarn integration
+```
+
 ### TODO 
 * <del>implement [winston](https://github.com/winstonjs/winston) logger</del>
 * <del>implement client subscriber (client prints request body to console)</del>
