@@ -2,19 +2,17 @@ import {Channel} from "../entities/Channel";
 import {getConnection, EntityRepository} from "typeorm";
 
 class ChannelRepository {
-    private setupQb() {
-        return getConnection()
-            .getRepository(Channel)
-            .createQueryBuilder('channel');
-    }
-
     async findAll(): Promise<Channel[]> {
-        return getConnection()
+        const res = await getConnection()
             .getRepository(Channel)
             .createQueryBuilder('channel')
             .select(['channel'])
             .orderBy({channel: 'ASC'})
             .getMany();
+
+        console.log(res);
+
+        return res;
     }
 
     async findByTitle(title: string): Promise<Channel> {

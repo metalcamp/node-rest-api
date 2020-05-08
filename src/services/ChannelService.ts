@@ -87,6 +87,7 @@ export class ChannelService {
                 channelFilter.push({channelId: c.id});
             });
 
+            // TODO fix
             const channelSubscribers = await ChannelSubscriberRepository.find({
                 where: channelFilter
             });
