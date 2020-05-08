@@ -1,16 +1,42 @@
-## Tests
+## Setup
+Install dependencies 
+```bash
+yarn install
+```
 
-* Run all tests 
+Start postgres and redis
+```bash
+sudo docker-compose up -d postgres redis
+```
+
+## Run
+Start server 
+```
+yarn start
+```
+
+Start RSS parser / publish RSS content to channels 
+```
+yarn start-rss
+```
+
+Start publish worker / redis listener
+```
+yarn start-publish
+```
+ 
+## Tests
+Run all tests 
 ```bash
 yarn test
 ```
 
-* Run unit tests 
+Run unit tests 
 ```bash
 yarn unit
 ```
 
-* Run integration tests 
+Run integration tests 
 ```bash
 yarn integration
 ```
@@ -24,9 +50,3 @@ yarn integration
 * implement tests
 * refactor error mechanism
 * implement BZPOPMAX and replace redis.publish with redis.zset to avoid sending duplicate messages
-
-Commands: 
-* yarn start - start server
-* yarn start-rss - starts rss parser / publisher / worker
-* yarn start-publish - starts publish worker / redis listener
- 
