@@ -1,5 +1,5 @@
 import {Channel} from "../entities/Channel";
-import {getConnection, EntityRepository, Repository} from "typeorm";
+import {getConnection, EntityRepository, Repository, createQueryBuilder} from "typeorm";
 
 @EntityRepository(Channel)
 class ChannelRepository extends Repository<Channel> {
