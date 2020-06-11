@@ -5,6 +5,7 @@ import {errorHandler} from './middlewares/ErrorHandler';
 import {createConnection} from "typeorm";
 import Config from './config/Config';
 import logger from "./logger";
+import * as swagger from "swagger-express-ts";
 
 export class App {
     public app: Express;
@@ -33,6 +34,24 @@ export class App {
 
     private initializeRoutes() {
         this.app.use("/api/v1", router);
+        this.app.use('/api-docs/swagger', express.static('swagger'));
+        this.app.use('/api-docs/swagger/assets', express.static('node_modules/swagger-ui-dist'));
+        this.app.use(swagger.express(
+            {
+                definition: {
+                    info: {
+                        title: "My api",
+                        version: "1.0"
+                    },
+                    externalDocs: {
+                        url: "My url"
+                    }
+                    // Models can be defined here
+                }
+            }
+        ));
+
+
     }
 
     private initializeMiddlewares() {
@@ -44,6 +63,6 @@ export class App {
     }
 
     private connectToDatabase() {
-        createConnection();
+        // createConnection();
     }
 }

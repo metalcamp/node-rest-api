@@ -51,6 +51,7 @@
     "pg": "^8.0.2",
     "reflect-metadata": "^0.1.13",
     "rss-parser": "^3.7.6",
+    "swagger-express-ts": "^1.0.1",
     "typeorm": "^0.2.24",
     "winston": "^3.2.1"
   }
